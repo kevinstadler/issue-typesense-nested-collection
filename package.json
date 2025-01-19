@@ -1,0 +1,14 @@
+{
+	"name": "issue-typesense-nested-collection",
+	"private": true,
+	"packageManager": "pnpm@9.15.4",
+	"scripts": {
+		"dev:typesense:up": "docker compose up -d",
+		"dev:typesense:down": "docker compose down --volumes",
+		"typesense:collection": "tsx ./scripts/collection.ts"
+	},
+	"devDependencies": {
+		"tsx": "^4.19.2",
+		"typesense": "^1.8.2"
+	}
+}
