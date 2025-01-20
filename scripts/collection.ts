@@ -17,6 +17,7 @@ const schema: CollectionCreateSchema = {
 	fields: [
 		{ name: "title", type: "string", sort: true },
 		{ name: "tags.id", type: "string[]", facet: true },
+		{ name: "tags.author.id", type: "string[]", facet: true },
 	],
 	default_sorting_field: "title",
 	enable_nested_fields: true,
@@ -35,15 +36,15 @@ async function main() {
 			{
 				title: "Test 1",
 				tags: [
-					{ id: "cool", name: "Cool :+1:" },
-					{ id: "hip", name: "Hip" },
+					{ id: "cool", name: "Cool :+1:", author: { id: "1", name: "Foo" } },
+					{ id: "hip", name: "Hip", author: { id: "1", name: "Foo" } },
 				],
 			},
 			{
 				title: "Test 2",
 				tags: [
-					{ id: "cool", name: "Cool :+1:" },
-					{ id: "rad", name: "Rad" },
+					{ id: "cool", name: "Cool :+1:", author: { id: "1", name: "Foo" } },
+					{ id: "rad", name: "Rad", author: { id: "2", name: "Bar" } },
 				],
 			},
 		]);
@@ -51,8 +52,8 @@ async function main() {
 	const results = await client.collections(schema.name).documents().search({
 		q: "*",
 		query_by: "title",
-		facet_by: "tags.id",
-		facet_return_parent: "tags.id",
+		facet_by: "tags.author.id",
+		facet_return_parent: "tags.author.id",
 	});
 
 	console.dir(results, { depth: null });
